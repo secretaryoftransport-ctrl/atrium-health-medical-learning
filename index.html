@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atrium Health™ Medical Learning</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:0; background: url('https://cdn.discordapp.com/attachments/1404632828918108313/1474559404270420245/image.png?ex=699a49f5&is=6998f875&hm=b862c552aede8a5a95def0e5f8738aa96ebd48441e99889abaaaa3e55b85b9ad&') no-repeat center center fixed; background-size: cover; color:#333; }
+  header { background: rgba(0,64,128,0.85); color:white; text-align:center; padding:20px;}
+  nav { background: rgba(0,102,204,0.85); display:flex; justify-content:center; gap:20px; padding:10px 0; }
+  nav a { color:white; text-decoration:none; font-weight:bold; }
+  nav a:hover { text-decoration: underline; }
+  main { max-width:1000px; margin:20px auto; padding:0 20px; background:rgba(255,255,255,0.95); border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+  section { padding:20px; margin-bottom:20px; border-radius:8px; }
+  h2, h3 { color:#004080; }
+  ul { list-style-type: disc; padding-left:20px; }
+  .quiz { background:#e6f2ff; padding:15px; margin-top:10px; border-radius:6px; }
+  .badge { display:inline-block; background:#ffcc00; padding:5px 10px; border-radius:4px; margin:5px 0; font-weight:bold; }
+  input, select, button { padding:5px; margin-top:5px; }
+  #about-us img, #welcome img { max-width:100%; border-radius:10px; margin-top:15px; }
+  #welcome, #login-panel, #student-portal, #admin-panel { display:none; text-align:center; }
+  #student-portal ul li, #admin-panel #user-list li { margin-bottom:5px; }
+  .welcome-btn { padding:15px 30px; font-size:18px; margin:10px; cursor:pointer; background:#004080; color:white; border:none; border-radius:8px; }
+  .welcome-btn:hover { background:#0066cc; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Atrium Health™ Medical Learning</h1>
+  <p>Powered by Carolinas HealthCare System™ – 4-Month Self-Learning Program</p>
+</header>
+
+<nav>
+  <a href="#" onclick="showSection('welcome')">Welcome</a>
+  <a href="#" onclick="showSection('about-us')">About Us</a>
+  <a href="#" onclick="showSection('login-panel')">Student Login</a>
+  <a href="#" onclick="showSection('admin-panel')">Admin</a>
+</nav>
+
+<main>
+  <!-- Welcome Page -->
+  <section id="welcome">
+    <img src="https://cdn.discordapp.com/attachments/1404632828918108313/1474559350944038982/Sessions.png.png?ex=699a49e9&is=6998f869&hm=695f723f1f8ea1ae5bd68dd244ddad320877f991d5471a75941e7d460e85f306&" alt="Atrium Health™ Banner">
+    <h2>Welcome to Atrium Health™ Medical Learning</h2>
+    <p>Explore our 4-month self-paced medical learning program designed to empower future healthcare professionals.</p>
+    <button class="welcome-btn" onclick="showSection('login-panel')">Student Login</button>
+    <button class="welcome-btn" onclick="showSection('admin-panel')">Admin Login</button>
+  </section>
+
+  <!-- About Us -->
+  <section id="about-us">
+    <h2>About Us</h2>
+    <img src="https://cdn.discordapp.com/attachments/1404632828918108313/1474559350944038982/Sessions.png.png.png" alt="Atrium Health™ Banner">
+    
+    <h3>What This Program is For</h3>
+    <p>
+      Atrium Health™ Medical Learning is designed to provide a structured, self-paced educational experience for students interested in medical knowledge and clinical skills. 
+      Our program offers practical insights into healthcare concepts while fostering critical thinking and self-directed learning.
+    </p>
+
+    <h3>What We Do</h3>
+    <p>
+      We provide a 4-month intensive self-learning program covering essential medical topics, including anatomy, physiology, medical terminology, pathophysiology, pharmacology, clinical skills, ethics, and specialty care. 
+      Students progress through modules, complete quizzes, earn badges, and track their learning milestones.
+    </p>
+
+    <h3>What We Strive to Do</h3>
+    <p>
+      Our mission is to cultivate knowledgeable, skilled, and ethical future healthcare professionals. We strive to create an engaging, accessible, and interactive learning environment that empowers students to achieve mastery in medical knowledge and prepares them for real-world healthcare challenges.
+    </p>
+  </section>
+
+  <!-- Student Login -->
+  <section id="login-panel">
+    <h2>Student Login / Register</h2>
+    <input type="text" id="student-username" placeholder="Enter username"><br>
+    <input type="password" id="student-password" placeholder="Enter password"><br>
+    <button onclick="studentLogin()">Login</button>
+    <button onclick="studentRegister()">Register</button>
+    <p id="login-msg" style="color:red;"></p>
+  </section>
+
+  <!-- Student Portal -->
+  <section id="student-portal">
+    <h2>Welcome, <span id="student-name"></span></h2>
+    <p>Modules Assigned:</p>
+    <ul id="student-modules"></ul>
+    <p>Badges:</p>
+    <ul id="student-badges"></ul>
+    <p>Quiz Scores:</p>
+    <ul id="student-scores"></ul>
+    <button onclick="logoutStudent()">Logout</button>
+  </section>
+
+  <!-- Admin Panel -->
+  <section id="admin-panel">
+    <h2>Administrator Panel</h2>
+    <p>Manage users, assign modules & badges, track quiz scores, and edit courses.</p>
+
+    <h3>Add New Student</h3>
+    <input type="text" id="new-username" placeholder="Enter student name">
+    <input type="password" id="new-password" placeholder="Enter initial password">
+    <button onclick="addUser()">Add Student</button>
+
+    <h3>Registered Students</h3>
+    <ul id="user-list"></ul>
+
+    <h3>Assign Module / Badge</h3>
+    <select id="select-user"></select>
+    <select id="select-module">
+      <option value="Module 1">Module 1 – Anatomy & Physiology</option>
+      <option value="Module 2">Module 2 – Medical Terminology</option>
+      <option value="Module 3">Module 3 – Pathophysiology</option>
+      <option value="Module 4">Module 4 – Pharmacology</option>
+      <option value="Module 5">Module 5 – Clinical Skills</option>
+      <option value="Module 6">Module 6 – Medical Ethics</option>
+      <option value="Module 7">Module 7 – Specialty Overview</option>
+      <option value="Module 8">Module 8 – Emergency & Capstone</option>
+    </select>
+    <button onclick="assignModule()">Assign Module</button>
+    <button onclick="assignBadge()">Assign Badge</button>
+
+    <h3>Edit Courses Dynamically</h3>
+    <select id="edit-course-select">
+      <option value="Module 1">Module 1 – Anatomy & Physiology</option>
+      <option value="Module 2">Module 2 – Medical Terminology</option>
+      <option value="Module 3">Module 3 – Pathophysiology</option>
+      <option value="Module 4">Module 4 – Pharmacology</option>
+      <option value="Module 5">Module 5 – Clinical Skills</option>
+      <option value="Module 6">Module 6 – Medical Ethics</option>
+      <option value="Module 7">Module 7 – Specialty Overview</option>
+      <option value="Module 8">Module 8 – Emergency & Capstone</option>
+    </select>
+    <input type="text" id="edit-course-content" placeholder="New course description">
+    <button onclick="editCourse()">Update Course</button>
+  </section>
+</main>
+
+<footer>
+  &copy; 2026 Atrium Health™, Powered by Carolinas HealthCare System™
+</footer>
+
+<script>
+// Same script as before
+let users = []; 
+let courses = {
+  "Module 1": "Musculoskeletal, Cardiovascular, Respiratory, Nervous",
+  "Module 2": "Medical terminology flashcards & quizzes",
+  "Module 3": "Heart, Lung, Kidney, Liver, Brain diseases",
+  "Module 4": "Drug classes, mechanisms, side effects",
+  "Module 5": "Vital signs, hygiene, patient communication",
+  "Module 6": "Ethics scenarios and quizzes",
+  "Module 7": "Pediatrics, Obstetrics, Psychiatry",
+  "Module 8": "Emergency protocols & capstone assessment"
+};
+let currentStudent = null;
+
+function showSection(id){
+  document.querySelectorAll('main section').forEach(s=>s.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+// Student
+function studentRegister(){const u=document.getElementById('student-username').value.trim(),p=document.getElementById('student-password').value.trim();if(!u||!p){document.getElementById('login-msg').textContent='Enter username & password';return;}if(users.find(x=>x.username===u)){document.getElementById('login-msg').textContent='Username exists';return;}users.push({username:u,password:p,modules:[],badges:[],quizScores:{}});document.getElementById('login-msg').textContent='Registered! You can now login.';}
+function studentLogin(){const u=document.getElementById('student-username').value.trim(),p=document.getElementById('student-password').value.trim(),user=users.find(x=>x.username===u);if(!user){document.getElementById('login-msg').textContent='Username not found';return;}if(user.password!==p){document.getElementById('login-msg').textContent='Incorrect password';return;}currentStudent=user;showStudentPortal();}
+function showStudentPortal(){showSection('student-portal');document.getElementById('student-name').textContent=currentStudent.username;renderStudentModules();}
+function renderStudentModules(){const m=document.getElementById('student-modules'),b=document.getElementById('student-badges'),q=document.getElementById('student-scores');m.innerHTML='';b.innerHTML='';q.innerHTML='';currentStudent.modules.forEach(x=>{let li=document.createElement('li');li.textContent=x;m.appendChild(li);});currentStudent.badges.forEach(x=>{let li=document.createElement('li');li.textContent=x;b.appendChild(li);});for(let x in currentStudent.quizScores){let li=document.createElement('li');li.textContent=`${x}: ${currentStudent.quizScores[x]} points`;q.appendChild(li);}}
+function logoutStudent(){currentStudent=null;showSection('welcome');document.getElementById('student-username').value='';document.getElementById('student-password').value='';document.getElementById('login-msg').textContent='';}
+
+// Admin
+function renderUsers(){const ul=document.getElementById('user-list'),sel=document.getElementById('select-user');ul.innerHTML='';sel.innerHTML='';users.forEach((u,i)=>{const li=document.createElement('li');li.textContent=`${u.username} – Modules: ${u.modules.join(',')||'None'} – Badges: ${u.badges.join(',')||'None'} – Scores: ${JSON.stringify(u.quizScores)}`;const btn=document.createElement('button');btn.textContent='Remove';btn.onclick=()=>{if(confirm('Remove '+u.username+'?')){users.splice(i,1);renderUsers();}};li.appendChild(btn);ul.appendChild(li);const option=document.createElement('option');option.value=i;option.textContent=u.username;sel.appendChild(option);});}
+function addUser(){const u=document.getElementById('new-username').value.trim(),p=document.getElementById('new-password').value.trim();if(!u||!p){alert('Enter username & password');return;}if(users.find(x=>x.username===u)){alert('Username exists');return;}users.push({username:u,password:p,modules:[],badges:[],quizScores:{}});document.getElementById('new-username').value='';document.getElementById('new-password').value='';renderUsers();}
+function assignModule(){const i=document.getElementById('select-user').value,m=document.getElementById('select-module').value;if(!users[i].modules.includes(m)){users[i].modules.push(m);users[i].quizScores[m]=0;renderUsers();}else alert('Module already assigned');}
+function assignBadge(){const i=document.getElementById('select-user').value,m=document.getElementById('select-module').value;if(!users[i].badges.includes(m)){users[i].badges.push(m);renderUsers();}else alert('Badge already assigned');}
+function editCourse(){const c=document.getElementById('edit-course-select').value,v=document.getElementById('edit-course-content').value.trim();if(v){courses[c]=v;alert('Course updated');document.getElementById('edit-course-content').value='';}else alert('Enter new course description');}
+
+showSection('welcome');
+renderUsers();
+</script>
+</body>
+</html>
